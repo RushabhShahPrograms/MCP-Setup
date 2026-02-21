@@ -1,0 +1,29 @@
+# MCP & FastMCP (Model Context Protocol)
+mcp==1.26.0
+fastmcp==3.0.1
+
+# Web Frameworks
+fastapi==0.129.1
+streamlit==1.54.0
+uvicorn==0.41.0
+
+# LangChain Core & Community
+langchain==1.2.10
+langchain-core==1.2.14
+langchain-community==0.4.1
+langchain-mcp-adapters==0.2.1
+
+# Model Providers
+langchain-google-genai==4.2.1
+langchain-ollama==1.0.1
+
+# Agent Orchestration
+langgraph==1.0.9
+
+# Common Utilities (Implicitly required for many of the above)
+pydantic==2.12.5
+python-dotenv==1.2.1
+
+rich
+requests
+yfinance
