@@ -46,7 +46,7 @@ def get_stock_price(ticker: str) -> str:
         stock = yf.Ticker(ticker.upper())
         info = stock.info
 
-        if not info or info.get("regularMarketPrice") is None and info.get("currentPrice") is None:
+        if not info or (info.get("regularMarketPrice") is None and info.get("currentPrice") is None):
             return f"Error: Could not find data for ticker '{ticker}'. Check the symbol."
 
         price = info.get("currentPrice") or info.get("regularMarketPrice")

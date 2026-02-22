@@ -1,3 +1,4 @@
+from __future__ import annotations
 import math
 import statistics
 from mcp.server.fastmcp import FastMCP
@@ -24,7 +25,7 @@ def multiply(a: float, b: float) -> float:
 
 
 @mcp.tool()
-def divide(a: float, b: float) -> float:
+def divide(a: float, b: float) -> float | str:
     """Divide a by b. Returns error if b is zero."""
     if b == 0:
         return "Error: Division by zero is undefined."
@@ -78,7 +79,7 @@ def cos(angle_degrees: float) -> float:
 
 
 @mcp.tool()
-def tan(angle_degrees: float) -> str:
+def tan(angle_degrees: float) -> float | str:
     """Calculate the tangent of an angle given in degrees."""
     if angle_degrees % 180 == 90:
         return "Error: Tangent is undefined at 90 degrees."
