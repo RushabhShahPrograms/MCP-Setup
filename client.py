@@ -4,9 +4,12 @@
 import asyncio
 import subprocess
 import sys
-import json
+import os
 from pathlib import Path
 from datetime import datetime
+
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables (like TAVILY_API_KEY) from .env file
 
 from rich.console import Console
 from rich.markdown import Markdown
@@ -25,7 +28,7 @@ SERVERS_DIR = Path(__file__).parent / "servers"
 # to use tools correctly or hallucinate results. Tell it *exactly* how to behave.
 SYSTEM_PROMPT = """\
 You are a highly capable AI assistant with access to specific tools.
-You MUST use a tool if the user asks for calculations, conversions, weather, or stock data. 
+You MUST use a tool if the user asks for calculations, conversions, weather, stock data, or a web search. 
 Do NOT guess or calculate these values yourself. Wait for the tool output and then clearly present it.
 
 Available capabilities:
@@ -33,12 +36,13 @@ Available capabilities:
 - Unit conversion tools: length, weight, temperature, volume, speed, area, time, pressure, energy
 - Weather tools: current conditions, forecasts, hourly data, location comparisons
 - Stock market tools: live prices, fundamentals, history, comparisons, dividends, indices
+- Web search tools: Use this to search the internet for the most up-to-date facts, news, and information.
 
 RULES:
 1. Always call the appropriate tool when facts, calculations, or external data are needed.
 2. If multiple steps are required, call tools one by one and wait for the result.
 3. Be concise and format the numbers/data clearly in your final response.
-4. Never assume a stock price, weather condition, or math result.
+4. Never assume a stock price, weather condition, math result, or current event data. Use the web search tools when looking for current facts not covered by other tools.
 """
 
 # ─── Ollama auto-detect ───────────────────────────────────────────────────────
@@ -122,6 +126,7 @@ async def main():
         "units":   {"command": sys.executable, "args": [str(SERVERS_DIR / "unit_server.py")],    "transport": "stdio"},
         "weather": {"command": sys.executable, "args": [str(SERVERS_DIR / "weather_server.py")], "transport": "stdio"},
         "stocks":  {"command": sys.executable, "args": [str(SERVERS_DIR / "stock_server.py")],   "transport": "stdio"},
+        "tavily":  {"command": "npx", "args": ["-y", "tavily-mcp@latest"], "transport": "stdio"},
     }
 
     console.print("[dim cyan]Connecting to MCP servers...[/]")
