@@ -35,6 +35,35 @@ def _humanize(n) -> str:
     except Exception:
         return "N/A"
 
+@mcp.tool()
+def search_stock_symbol(company_name: str = "") -> str:
+    """
+    Search for a stock ticker symbol by company name.
+    ALWAYS call this first when you don't know the exact ticker.
+    Works for Indian stocks (NSE/BSE) and global markets.
+    Example: search_stock_symbol("Reliance Industries") → RELIANCE.NS
+    Example: search_stock_symbol("Tata Consultancy")    → TCS.NS
+    """
+    if not company_name.strip():
+        return (
+            "Error: company_name is required. "
+            "Example usage: search_stock_symbol('Reliance Industries')"
+        )
+    try:
+        results = yf.Search(company_name)
+        quotes = results.quotes
+        if not quotes:
+            return f"No ticker found for '{company_name}'. Try a different name."
+        lines = [f"Top matches for '{company_name}':"]
+        for q in quotes[:5]:
+            lines.append(
+                f"  {q.get('symbol','?'):<14} "
+                f"{q.get('longname') or q.get('shortname', '?')}  "
+                f"[{q.get('exchange','?')}]"
+            )
+        return "\n".join(lines)
+    except Exception as e:
+        return f"Error: {e}"
 
 @mcp.tool()
 def get_stock_price(ticker: str) -> str:
@@ -262,7 +291,6 @@ def get_stock_dividends(ticker: str) -> str:
         return "\n".join(lines)
     except Exception as e:
         return f"Error: {e}"
-
 
 if __name__ == "__main__":
     mcp.run(transport="stdio")
