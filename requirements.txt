@@ -24,14 +24,9 @@ langgraph==1.0.9
 pydantic==2.12.5
 python-dotenv==1.2.1
 
-# Long-Term Memory 
-mem0ai==1.0.5
-chromadb==1.5.2
-
 # Translation
 deep-translator==1.11.4
 langdetect==1.0.9
 
 rich
 requests
-yfinance

@@ -1,0 +1,26 @@
+Folder PATH listing for volume New Volume
+Volume serial number is 74C0-C799
+D:.
+|   .env
+|   .gitignore
+|   client.py
+|   config.py
+|   folder_structure.txt
+|   memory_utils.py
+|   README.md
+|   requirements.txt
+|   
++---agents
+|   |   supervisor.py
+|           
++---memory_db
+|       chroma.sqlite3
+|       
++---servers
+|       ffmpeg_server.py
+|       math_server.py
+|       stock_server.py
+|       translate_server.py
+|       unit_server.py
+|       weather_server.py
+        
